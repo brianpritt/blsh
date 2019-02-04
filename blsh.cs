@@ -20,31 +20,35 @@ namespace Blsh
       {
         Console.Write(newSession.GetPath() + " $ ");
         command = Console.ReadLine();
+        
+        string[] splitCommand = command.Split(" ");
+        newSession.SetCommand(splitCommand[0]);
+        string[] args = splitCommand.Skip(1).ToArray();
+        newSession.SetArgs(string.Join(" ", args));
         Session.AddCommand(command);//add to history
-        Session methodReturn = DoesItExist(command, newSession);
+
+        Session methodReturn = DoesItExist(newSession); //Magic
+
         newSession.SetPath(methodReturn.GetPath());
       } while (command != "exit");
 
     }
 
 
-    public static Session DoesItExist(string input, Session currentSession)
+    public static Session DoesItExist(Session currentSession)
     {  
-      // Can this section be written more elegantly?
-      string[] comm = input.Split(" ");           //split shell input into an array
-      currentSession.SetCommand(comm[0]);                //take first array item and treat it as executable
-      string[] noExe  = comm.Skip(1).ToArray();     //create new array without executable
-      currentSession.SetArgs(string.Join(" ", noExe));   //and join it to string b/c ProcessStartInfo() only takes strings as arguments
+      
       string commandsDir = @"Users/brian/code/blsp/bin/";
+      
       string external = currentSession.GetCommand() + ".exe"; // change later to handle binaries native to MacOS
-      /// reall, fix this garbage Brian.
-      if (input == "exit")
+
+      if (currentSession.GetCommand() == "exit")
       {
         Console.WriteLine("Exiting...");
       }
       else if (BuiltIns.builtins.ContainsKey(currentSession.GetCommand()))
       {
-        Console.WriteLine(currentSession.GetCommand());
+        // Runs currentSession through builtins and comes back with returnToMain, SHOULD be the same object
         Session returnToMain = BuiltIns.runBuiltIns(currentSession);
         Console.WriteLine(returnToMain.GetCommand());
         return returnToMain;

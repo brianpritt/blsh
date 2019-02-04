@@ -8,7 +8,7 @@ namespace Blsh
   {
     public delegate Session myDelegate<Session> (Session session); 
     public static Dictionary<string, myDelegate<Session>> builtins = new Dictionary<string, myDelegate<Session>>
-    //This previous line took me waaaay to long to figure out.  I tried using Reflections, and also straight up declaring and instantiating my own Delegate before I found the Action delegate. 
+    //I wanted to call a method from an input string. It took me waaaay to long to figure out.  I tried using Reflections, but generic delegates are the way to go. myDelegate passed into the Dictionary will use the string as a method and pass along with it a Session object.  
     {
       {"clear", clear},
       {"pwd", pwd},
@@ -18,7 +18,7 @@ namespace Blsh
     public static Session runBuiltIns(Session thisSession)
     {
       string command = thisSession.GetCommand();
-      string args = thisSession.GetArgs();
+      //string args = thisSession.GetArgs();
     
       Session returnSession = builtins[command](thisSession);
       return returnSession;
@@ -33,9 +33,9 @@ namespace Blsh
     // {
     //
     // }
-    // public static string cd(string[] args)
+    // public static Session cd(Session thisSession)
     // {
-    //
+      
     // }
     public static Session whoami(Session thisSession)
     {
