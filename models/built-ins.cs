@@ -1,3 +1,4 @@
+//mehtods that need to be finished: help, cd, for-do, history, jobs, dirs, echo, and lots of others that build the scripting language portion of the shell.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,6 @@ namespace Blsh
     public static Session runBuiltIns(Session thisSession)
     {
       string command = thisSession.GetCommand();
-      //string args = thisSession.GetArgs();
     
       Session returnSession = builtins[command](thisSession);
       return returnSession;
@@ -29,17 +29,10 @@ namespace Blsh
       Console.Clear();
       return thisSession;
     }
-    // public static string help()
-    // {
-    //
-    // }
-    // public static Session cd(Session thisSession)
-    // {
-      
-    // }
     public static Session whoami(Session thisSession)
     {
-      Console.WriteLine("{0} on {1}", Environment.UserName, Environment.MachineName );
+      //the Session object actually has properites for this. but whatever.  I'm waiting for the init method class to be built to figure out where this will get assigned. For now. Just be happy that it's here.
+      Console.WriteLine("{0} on {1}", Environment.UserName, Environment.MachineName);
       return thisSession;
     }
     public static Session pwd(Session thisSession)

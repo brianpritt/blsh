@@ -16,11 +16,12 @@ namespace Blsh
       Console.Clear();
       Session newSession = new Session ("/");  
       Directory.SetCurrentDirectory(newSession.GetPath());
+      
       do
       {
         Console.Write(newSession.GetPath() + " $ ");
         command = Console.ReadLine();
-        
+
         string[] splitCommand = command.Split(" ");
         newSession.SetCommand(splitCommand[0]);
         string[] args = splitCommand.Skip(1).ToArray();
@@ -37,8 +38,7 @@ namespace Blsh
 
     public static Session DoesItExist(Session currentSession)
     {  
-      
-      string commandsDir = @"Users/brian/code/blsp/bin/";
+      string commandsDir = @"Users/brian/code/blsp/bin/";//this will be changed later when the init function
       
       string external = currentSession.GetCommand() + ".exe"; // change later to handle binaries native to MacOS
 
