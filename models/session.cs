@@ -6,8 +6,8 @@ namespace Blsh
   public class Session
   {
     private string _path;
-    private string _command;
-    private string _args;
+    // private string _command;
+    // private string _args;
     private string _user;
     private string _machine;
 
@@ -28,22 +28,22 @@ namespace Blsh
     {
       return _path;
     }
-    public void SetCommand(string command)
-    {
-      _command = command;
-    }
-    public string GetCommand()
-    {
-      return _command;
-    }
-    public void SetArgs(string args)
-    {
-      _args = args;
-    }
-    public string GetArgs()
-    {
-      return _args;
-    }
+    // public void SetCommand(string command)
+    // {
+    //   _command = command;
+    // }
+    // public string GetCommand()
+    // {
+    //   return _command;
+    // }
+    // public void SetArgs(string args)
+    // {
+    //   _args = args;
+    // }
+    // public string GetArgs()
+    // {
+    //   return _args;
+    // }
 
     public static void AddCommand(string command)
     {
