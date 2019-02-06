@@ -16,7 +16,7 @@ namespace Blsh
       Console.Clear();
       Session newSession = new Session ("/");  
       Directory.SetCurrentDirectory(newSession.GetPath());
-      
+
       do
       {
         Console.Write(newSession.GetPath() + " $ ");
@@ -28,7 +28,7 @@ namespace Blsh
         newSession.SetArgs(string.Join(" ", args));
         Session.AddCommand(command);//add to history
 
-        Session methodReturn = DoesItExist(newSession); //Magic
+        Session methodReturn = Promulgate(newSession); //Magic
 
         newSession.SetPath(methodReturn.GetPath());
       } while (command != "exit");
@@ -36,11 +36,11 @@ namespace Blsh
     }
 
 
-    public static Session DoesItExist(Session currentSession)
+    public static Session Promulgate(Session currentSession)
     {  
-      string commandsDir = @"Users/brian/code/blsp/bin/";//this will be changed later when the init function
+      string commandsDir = @"Users/brian/code/blsp/bin/";//this will be changed later when the init function is finished.
       
-      string external = currentSession.GetCommand() + ".exe"; // change later to handle binaries native to MacOS
+      string external = currentSession.GetCommand() + ".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
 
       if (currentSession.GetCommand() == "exit")
       {

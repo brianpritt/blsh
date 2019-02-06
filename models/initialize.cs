@@ -7,12 +7,12 @@ namespace Blsh
 {
     public class Initialize
     {
-        public string initPath;
-        public string initBinPath;
-        public static Initialize RunInit()
-        {
+        // public string initPath;
+        // public string initBinPath;
+        // public static Initialize RunInit()
+        // {
         
-        }
+        // }
         
     }
 } 

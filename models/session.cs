@@ -11,7 +11,7 @@ namespace Blsh
     private string _user;
     private string _machine;
 
-    private static List<string> _available = new List<string> {};
+    private static Dictionary<string, string> _available = new Dictionary<string, string > {};
     private static List<string> _history = new List<string> {};
 
     public Session(string path)
