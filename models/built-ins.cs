@@ -14,6 +14,7 @@ namespace Blsh
       {"clear", clear},
       {"pwd", pwd},
       {"whoami",whoami}
+      // {"cd",cd}
     };
 
     public static Session runBuiltIns(Session thisSession, string com, string args)
@@ -39,5 +40,12 @@ namespace Blsh
       Console.WriteLine(thisSession.GetPath());
       return thisSession;
     }
+    // public static Session cd(Session thisSession, string args)
+    // {
+    //   Directory.SetCurrentDirectory(args);
+    //   thisSession.SetPath(args);
+    //   Console.WriteLine(thisSession.GetPath());
+    //   return thisSession;
+    // }
   } 
 }

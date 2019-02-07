@@ -40,7 +40,7 @@ namespace Blsh
 
     public static Session Promulgate(Session currentSession, string command, string args)
     {  
-      string commandsDir = @"Users/brian/code/blsp/bin/";//this will be changed later when the init function is finished.
+      string commandsDir = @"/Users/brian/code/blsp/bin/";//this will be changed later when the init function is finished.
       
       string external = command + ".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
 
@@ -52,7 +52,7 @@ namespace Blsh
       {
         // Runs currentSession through builtins and comes back with returnToMain, SHOULD be the same object
         Session returnToMain = BuiltIns.runBuiltIns(currentSession, command, args);
-        // Console.WriteLine(returnToMain.GetCommand());
+        
         return returnToMain;
       }
       else
