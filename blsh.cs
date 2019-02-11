@@ -9,11 +9,22 @@ namespace Blsh
 {
   public class theShell
   {
+    private string _path = null;
+    private string _binPath = null;
+    private string _configPath = null;
+     private string _usr = null;
+     private string _machine = null;
+    public static void Init()
+    {
+      Initialize.Ini();
+      Console.WriteLine(Initialize.iniContents[1]);
+    }
     public static void Main()
     {
-
+      
       string input = null;
       Console.Clear();
+      Init();
       Session newSession = new Session ("/");  
       Directory.SetCurrentDirectory(newSession.GetPath());
 
