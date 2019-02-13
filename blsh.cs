@@ -31,16 +31,12 @@ namespace Blsh
         string args = string.Join(" ", argsArray);
 
         Session.AddCommand(input);//add to history
-
-        Session methodReturn = Promulgate(newSession, command, args); //Magic
-
-        newSession.SetPath(methodReturn.GetPath());
+        Promulgate(newSession, command, args); //Magic
       } while (input != "exit");
 
     }
 
-
-    public static Session Promulgate(Session currentSession, string command, string args)
+    public static void Promulgate(Session currentSession, string command, string args)
     {  
       // string commandsDir = @"/Users/brian/code/blsp/bin/";//this will be changed later when the init function is finished.
       string commandsDir = @"\Users\BrianPritt\briCode\blsh\commands\";
@@ -53,15 +49,12 @@ namespace Blsh
       else if (BuiltIns.builtins.ContainsKey(command))
       {
         // Runs currentSession through builtins and comes back with returnToMain, SHOULD be the same object
-        Session returnToMain = BuiltIns.runBuiltIns(currentSession, command, args);
-        
-        return returnToMain;
+        BuiltIns.runBuiltIns(currentSession, command, args);  
       }
       else
       {
         try
         {
-          Console.WriteLine("in try");
           var process = new Process();
           process.StartInfo = new ProcessStartInfo(commandsDir + external, args );
           {
@@ -70,14 +63,14 @@ namespace Blsh
           process.Start();
           process.WaitForExit();
 
-          return currentSession;
+          // return currentSession;
         }
         catch (Win32Exception w)
         {
           Console.WriteLine();
         }
       }
-      return currentSession;
+      // return currentSession;
     }
     
   }

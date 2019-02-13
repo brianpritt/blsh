@@ -17,15 +17,13 @@ namespace Blsh
       {"cd",cd}
     };
 
-    public static Session runBuiltIns(Session thisSession, string com, string args)
+    public static void runBuiltIns(Session thisSession, string com, string args)
     {
-    
-      Session returnSession = builtins[com](thisSession, args);
-      return returnSession;
-      // return thisSession;
+      builtins[com](thisSession, args);
     }
 
     ///Built-ins:
+    //Giving them all return types because of how I handeled the Delegate, I want this to go away
     public static Session clear(Session thisSession, string args)
     {
       Console.Clear();
