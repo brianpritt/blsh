@@ -15,8 +15,8 @@ namespace Blsh
       string input = null;
       Console.Clear();
       Initialize newInit = new Initialize();
-      newInit.theSetter();
-      Session newSession = new Session (newInit.GetPath());  
+      newInit.Setters();
+      Session newSession = new Session (newInit.GetPath(), newInit.GetBinaries());  
       Directory.SetCurrentDirectory(newSession.GetPath());
 
       do
@@ -38,8 +38,6 @@ namespace Blsh
 
     public static void Promulgate(Session currentSession, string command, string args)
     {  
-      // string commandsDir = @"/Users/brian/code/blsp/bin/";//this will be changed later when the init function is finished.
-      string commandsDir = @"\Users\BrianPritt\briCode\blsh\commands\";
       string external = command + ".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
 
       if (command == "exit")
@@ -56,7 +54,7 @@ namespace Blsh
         try
         {
           var process = new Process();
-          process.StartInfo = new ProcessStartInfo(commandsDir + external, args );
+          process.StartInfo = new ProcessStartInfo(currentSession.GetBin() + external, args );
           {
             // UseShellExectute = false
           };

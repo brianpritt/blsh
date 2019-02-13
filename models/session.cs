@@ -7,15 +7,17 @@ namespace Blsh
   {
     private string _path;
     private string _prevPath;
+    private string _binPath;
     // private string _command;
     // private string _args;
 
     private static Dictionary<string, string> _available = new Dictionary<string, string > {};
     private static List<string> _history = new List<string> {};
 
-    public Session(string path)
+    public Session(string path, string bin)
     {
       _path = path;
+      _binPath = bin;
       
     }
     public void SetPath(string path)
@@ -25,6 +27,10 @@ namespace Blsh
     public string GetPath()
     {
       return _path;
+    }
+    public string GetBin()
+    {
+      return _binPath;
     }
     // public void SetCommand(string command)
     // {

@@ -27,7 +27,7 @@ namespace Blsh
             _user = Environment.UserName;
             _machine = Environment.MachineName;
         }
-        public void SetPath()
+        public void Setters()
         {
             foreach(string line in iniContents)
             {
@@ -36,18 +36,20 @@ namespace Blsh
                     _home = line.Substring(line.LastIndexOf('=')+1);
                     break;
                 }
-                else if(!(line.Contains("PATH")))
+                if (line.Contains("BIN"))
                 {
-                    Console.WriteLine("No default path set. Set to C:\\");
-                    _home = "C:\\";
+                    _binaries = line.Substring(line.LastIndexOf('=')+1);
                 }
-                
             }
         }
     
         public string GetPath()
         {
             return _home;
+        }
+        public string GetBinaries()
+        {
+            return _binaries;
         }
         // public static void Ini()
         // //only run after 
@@ -79,10 +81,7 @@ namespace Blsh
         // public string GetMachine()
         // {
 
-        // }
-        public void theSetter(){
-            SetPath();
-        }
+        
         
     }
 } 
