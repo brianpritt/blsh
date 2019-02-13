@@ -9,23 +9,14 @@ namespace Blsh
 {
   public class theShell
   {
-    private string _path = null;
-    private string _binPath = null;
-    private string _configPath = null;
-     private string _usr = null;
-     private string _machine = null;
-    public static void Init()
-    {
-      Initialize.Ini();
-      Console.WriteLine(Initialize.iniContents[1]);
-    }
     public static void Main()
     {
       
       string input = null;
       Console.Clear();
-      Init();
-      Session newSession = new Session ("/");  
+      Initialize newInit = new Initialize();
+      newInit.theSetter();
+      Session newSession = new Session (newInit.GetPath());  
       Directory.SetCurrentDirectory(newSession.GetPath());
 
       do
@@ -51,8 +42,8 @@ namespace Blsh
 
     public static Session Promulgate(Session currentSession, string command, string args)
     {  
-      string commandsDir = @"/Users/brian/code/blsp/bin/";//this will be changed later when the init function is finished.
-      
+      // string commandsDir = @"/Users/brian/code/blsp/bin/";//this will be changed later when the init function is finished.
+      string commandsDir = @"\Users\BrianPritt\briCode\blsh\commands\";
       string external = command + ".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
 
       if (command == "exit")
@@ -70,6 +61,7 @@ namespace Blsh
       {
         try
         {
+          Console.WriteLine("in try");
           var process = new Process();
           process.StartInfo = new ProcessStartInfo(commandsDir + external, args );
           {
@@ -87,6 +79,6 @@ namespace Blsh
       }
       return currentSession;
     }
-    // public static void Initialize()
+    
   }
 }

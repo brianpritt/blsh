@@ -6,13 +6,16 @@ class Ls
 {
   static void Main(string[] args)
   {
+    Console.WriteLine("in ls");
     if (args.Length > 0)
     {
       string path = args[0];
       IEnumerable<string> folders = Directory.EnumerateDirectories(path);
       string[] files = Directory.GetFiles(path);
+      
       foreach (string item in folders)
       {
+
         Console.Write(item + "  ");
       }
       foreach (string item in files)
@@ -31,5 +34,6 @@ class Ls
       }
       Console.WriteLine(" ");
     }
+    Console.ReadKey();
   }
 }

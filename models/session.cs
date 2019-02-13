@@ -6,10 +6,9 @@ namespace Blsh
   public class Session
   {
     private string _path;
+    private string _prevPath;
     // private string _command;
     // private string _args;
-    private string _user;
-    private string _machine;
 
     private static Dictionary<string, string> _available = new Dictionary<string, string > {};
     private static List<string> _history = new List<string> {};
@@ -17,8 +16,7 @@ namespace Blsh
     public Session(string path)
     {
       _path = path;
-      _user = Environment.UserName;
-      _machine = Environment.MachineName;
+      
     }
     public void SetPath(string path)
     {

@@ -5,30 +5,65 @@
 //same with command folders, use export
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Blsh
 {
     public class Initialize 
     {
+        private string _user;
+        private string _machine;
+        private string _home;
+        private string _binaries;
+        private string[] _external;
+        // setting up an array at init seems more secure than willy nilly adding apps
+
+
         public static string iniFile = "blsp.ini";
         public static string[] iniContents = File.ReadAllLines(iniFile);
-        
-        public string path = null;
-
-        public static void Ini()
+        // Regex afterEquls = new Regex()
+        public Initialize()
         {
-            if (File.Exists(iniFile))
+            _user = Environment.UserName;
+            _machine = Environment.MachineName;
+        }
+        public void SetPath()
         {
-            
-            foreach (string item in iniContents)
+            foreach(string line in iniContents)
             {
-                Console.WriteLine(item);
+                if (line.Contains("PATH"))
+                {
+                    _home = line.Substring(line.LastIndexOf('=')+1);
+                    break;
+                }
+                else if(!(line.Contains("PATH")))
+                {
+                    Console.WriteLine("No default path set. Set to C:\\");
+                    _home = "C:\\";
+                }
+                
             }
-        } else
+        }
+    
+        public string GetPath()
         {
-            Console.WriteLine("blsp.ini is not present.");
+            return _home;
         }
-        }
+        // public static void Ini()
+        // //only run after 
+        // {
+        //     if (File.Exists(iniFile))
+        // {
+            
+        //     foreach (string item in iniContents)
+        //     {
+        //         Console.WriteLine(item);
+        //     }
+        // } else
+        // {
+        //     Console.WriteLine("blsp.ini is not present.");
+        // }
+        // }
         // public string GetPath()
         // { 
 
@@ -45,6 +80,9 @@ namespace Blsh
         // {
 
         // }
+        public void theSetter(){
+            SetPath();
+        }
         
     }
 } 
