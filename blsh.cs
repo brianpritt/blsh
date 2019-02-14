@@ -46,7 +46,6 @@ namespace Blsh
       }
       else if (BuiltIns.builtins.ContainsKey(command))
       {
-        // Runs currentSession through builtins and comes back with returnToMain, SHOULD be the same object
         BuiltIns.runBuiltIns(currentSession, command, args);  
       }
       else
@@ -61,14 +60,13 @@ namespace Blsh
           process.Start();
           process.WaitForExit();
 
-          // return currentSession;
+  
         }
         catch (Win32Exception w)
         {
           Console.WriteLine();
         }
       }
-      // return currentSession;
     }
     
   }

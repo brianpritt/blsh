@@ -16,6 +16,10 @@ namespace Blsh
         private string _home;
         private string _binaries;
         private string[] _external;
+        private string _arch;
+        private string _os;
+        private string _homeDrive;
+
         // setting up an array at init seems more secure than willy nilly adding apps
 
 
@@ -41,6 +45,10 @@ namespace Blsh
                     _binaries = line.Substring(line.LastIndexOf('=')+1);
                 }
             }
+            _arch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
+            _os = System.Environment.GetEnvironmentVariable("OS");
+            _homeDrive = System.Environment.GetEnvironmentVariable("HOMEDRIVE");
+            
         }
     
         public string GetPath()
