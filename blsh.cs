@@ -52,11 +52,15 @@ namespace Blsh
       {
         try
         {
-          var process = new Process();
+          Process process = new Process();
+         
           process.StartInfo = new ProcessStartInfo(currentSession.GetBin() + external, args );
-          {
-            // UseShellExectute = false
-          };
+          // {
+
+          //   // UseShellExectute = false
+          // };
+          
+          process.StartInfo.UseShellExecute = false;
           process.Start();
           process.WaitForExit();
 
@@ -64,7 +68,7 @@ namespace Blsh
         }
         catch (Win32Exception w)
         {
-          Console.WriteLine();
+          Console.WriteLine("General failure reading drive.");
         }
       }
     }

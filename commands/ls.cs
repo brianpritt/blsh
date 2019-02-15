@@ -6,7 +6,7 @@ class Ls
 {
   static void Main(string[] args)
   {
-    Console.WriteLine("in ls");
+  
     if (args.Length > 0)
     {
       string path = args[0];
@@ -34,6 +34,5 @@ class Ls
       }
       Console.WriteLine(" ");
     }
-    Console.ReadKey();
   }
 }

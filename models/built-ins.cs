@@ -7,8 +7,8 @@ namespace Blsh
 {
   public class BuiltIns
   {
-    public delegate Session myDelegate<Session> (Session session, string args); 
-    public static Dictionary<string, myDelegate<Session>> builtins = new Dictionary<string, myDelegate<Session>>
+    public delegate void myDelegate (Session session, string args); 
+    public static Dictionary<string, myDelegate> builtins = new Dictionary<string, myDelegate>
     //I wanted to call a method from an input string. It took me waaaay to long to figure out.  I tried using Reflections, but generic delegates are the way to go. myDelegate passed into the Dictionary will use the string as a method and pass along with it a Session object.  
     {
       {"clear", clear},
@@ -23,28 +23,38 @@ namespace Blsh
     }
 
     ///Built-ins:
-    //Giving them all return types because of how I handeled the Delegate, I want this to go away
-    public static Session clear(Session thisSession, string args)
+    //took out returns, Later might change back so built-ins can give exit codes.  Delegate might have to change to do that.
+    public static void clear(Session thisSession, string args)
     {
       Console.Clear();
-      return thisSession;
     }
-    public static Session whoami(Session thisSession, string args)
+    public static void whoami(Session thisSession, string args)
     {
       //the Session object actually has properites for this. but whatever.  I'm waiting for the init method class to be built to figure out where this will get assigned. For now. Just be happy that it's here.
       Console.WriteLine("{0} on {1}", Environment.UserName, Environment.MachineName);
-      return thisSession;
     }
-    public static Session pwd(Session thisSession, string args)
+    public static void pwd(Session thisSession, string args)
     {
       Console.WriteLine(thisSession.GetPath());
-      return thisSession;
     }
-    public static Session cd(Session thisSession, string args)
+    public static void cd(Session thisSession, string args)
     {
-      Directory.SetCurrentDirectory(args);
-      thisSession.SetPath(args);
-      return thisSession;
+      if (args.Length == 0){
+       Console.WriteLine();
+      }
+      else {  
+        try
+        {
+          Directory.SetCurrentDirectory(args);
+          thisSession.SetPath(args);
+         
+        }
+        catch (DirectoryNotFoundException dirx)
+        {
+          Console.WriteLine(dirx.Message);
+         
+        }
+      }
     }
   } 
 }
