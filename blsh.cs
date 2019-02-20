@@ -14,7 +14,7 @@ namespace Blsh
       
       string input = null;
       Console.Clear();
-      Console.WriteLine(Initialize.checkIni());
+      Initialize.checkIni();
       Initialize newInit = new Initialize();
       Session newSession = new Session (newInit.GetPath(), newInit.GetBinaries());  
       Directory.SetCurrentDirectory(newSession.GetPath());

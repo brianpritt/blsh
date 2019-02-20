@@ -5,6 +5,8 @@
 //same with command folders, use export
 using System;
 using System.IO;
+using System.Text;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Blsh
@@ -23,8 +25,8 @@ namespace Blsh
         // setting up an array at init seems more secure than willy nilly adding apps
 
 
-        public static string iniFile = "blsp.ini";
-        public static string[] iniContents = File.ReadAllLines(iniFile);
+        public static string iniFile = "blsh.ini";
+        public static string[] iniContents;
         public Initialize()
         {
             _user = Environment.UserName;
@@ -37,6 +39,7 @@ namespace Blsh
         }
         public string SetEnv(string getEnv)
         {
+            iniContents = File.ReadAllLines(iniFile);
             foreach(string line in iniContents)
             {
                 if(line.Contains(getEnv))
@@ -46,17 +49,27 @@ namespace Blsh
             }
             return null;
         }
-        public static bool checkIni()
+        // check if there is an ini file, create one if not // move default to root later maybe?
+        public static void checkIni()
         {
-            if (File.Exists(iniFile))
+            try 
             {
-                return true;
+                File.ReadLines("blsh.ini");
             }
-            // else if(!(File.Exists(iniFile)))
-            // {
+            catch (System.IO.FileNotFoundException err)
+            {
+                Console.WriteLine(err.Message);
+                Console.WriteLine("Creating...");
 
-            // }
-            return false;
+                string path = @"blsh.ini"; 
+                string vars = "PATH =/Users/brian/code/blsp/" + Environment.NewLine + "BIN =/Users/brian/code/blsp/bin";
+                using(FileStream fs = File.Create(path))
+                {
+                    Byte[] fle = new UTF8Encoding(true).GetBytes(vars);
+                    fs.Write(fle,0,fle.Length);
+                    
+                };
+            }
         }
         public string GetPath()
         {

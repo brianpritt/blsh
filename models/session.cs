@@ -8,6 +8,7 @@ namespace Blsh
     private string _path;
     private string _prevPath;
     private string _binPath;
+    private string _env;
     // private string _command;
     // private string _args;
 
