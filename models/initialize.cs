@@ -25,32 +25,39 @@ namespace Blsh
 
         public static string iniFile = "blsp.ini";
         public static string[] iniContents = File.ReadAllLines(iniFile);
-        // Regex afterEquls = new Regex()
         public Initialize()
         {
             _user = Environment.UserName;
             _machine = Environment.MachineName;
-        }
-        public void Setters()
-        {
-            foreach(string line in iniContents)
-            {
-                if (line.Contains("PATH"))
-                {
-                    _home = line.Substring(line.LastIndexOf('=')+1);
-                    break;
-                }
-                if (line.Contains("BIN"))
-                {
-                    _binaries = line.Substring(line.LastIndexOf('=')+1);
-                }
-            }
+            _home = SetEnv("PATH");
+            _binaries = SetEnv("BIN");
             _arch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
             _os = System.Environment.GetEnvironmentVariable("OS");
             _homeDrive = System.Environment.GetEnvironmentVariable("HOMEDRIVE");
-            
         }
-    
+        public string SetEnv(string getEnv)
+        {
+            foreach(string line in iniContents)
+            {
+                if(line.Contains(getEnv))
+                {
+                    return line.Substring(line.LastIndexOf('=')+1);
+                }
+            }
+            return null;
+        }
+        public static bool checkIni()
+        {
+            if (File.Exists(iniFile))
+            {
+                return true;
+            }
+            // else if(!(File.Exists(iniFile)))
+            // {
+
+            // }
+            return false;
+        }
         public string GetPath()
         {
             return _home;
