@@ -37,6 +37,7 @@ namespace Blsh
             _os = System.Environment.GetEnvironmentVariable("OS");
             _homeDrive = System.Environment.GetEnvironmentVariable("HOMEDRIVE");
         }
+        //Add check to see if required variable actually exist, and add a default if they do not
         public string SetEnv(string getEnv)
         {
             iniContents = File.ReadAllLines(iniFile);
@@ -55,14 +56,23 @@ namespace Blsh
             try 
             {
                 File.ReadLines("blsh.ini");
+                
             }
-            catch (System.IO.FileNotFoundException err)
+            catch (FileNotFoundException err)
             {
+                string path = @"blsh.ini";
+                string vars = null;
                 Console.WriteLine(err.Message);
                 Console.WriteLine("Creating...");
 
-                string path = @"blsh.ini"; 
-                string vars = "PATH =/Users/brian/code/blsp/" + Environment.NewLine + "BIN =/Users/brian/code/blsp/bin";
+                if (System.Environment.GetEnvironmentVariable("OS") == "Windows_NT")
+                { 
+                    vars = "PATH =C:\\Users\\BrianPritt\\" + Environment.NewLine + "BIN =C:\\Users\\BrianPritt\\briCode\\blsh\\bin\\";
+                }
+                else
+                {
+                    vars = "PATH =/Users/brian/code/blsp/" + Environment.NewLine + "BIN =/Users/brian/code/blsp/bin";
+                }
                 using(FileStream fs = File.Create(path))
                 {
                     Byte[] fle = new UTF8Encoding(true).GetBytes(vars);
@@ -79,20 +89,7 @@ namespace Blsh
         {
             return _binaries;
         }
-        // public static void Ini()
-        // //only run after 
-        // {
-        //     if (File.Exists(iniFile))
-        // {
-            
-        //     foreach (string item in iniContents)
-        //     {
-        //         Console.WriteLine(item);
-        //     }
-        // } else
-        // {
-        //     Console.WriteLine("blsp.ini is not present.");
-        // }
+    
         // }
         // public string GetPath()
         // { 

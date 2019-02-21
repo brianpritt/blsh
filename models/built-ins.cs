@@ -46,7 +46,7 @@ namespace Blsh
         try
         {
           Directory.SetCurrentDirectory(args);
-          thisSession.SetPath(args);
+          thisSession.SetPath(Directory.GetCurrentDirectory());
          
         }
         catch (DirectoryNotFoundException dirx)

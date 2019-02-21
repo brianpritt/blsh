@@ -38,7 +38,7 @@ namespace Blsh
 
     public static void Promulgate(Session currentSession, string command, string args)
     {  
-      string external = command + ".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
+      string external = command; // works for MacOS native without .exe. when init class is finished we can get rid of this.
 
       if (command == "exit")
       {
@@ -68,7 +68,7 @@ namespace Blsh
         }
         catch (Win32Exception w)
         {
-          Console.WriteLine("General failure reading drive.");
+          Console.WriteLine(w.Message);
         }
       }
     }
