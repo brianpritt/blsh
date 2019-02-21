@@ -1,4 +1,5 @@
-// args
+// The output of this application needs to be trimmed
+// Changing this to a switch might make it worthwhile.
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -26,11 +27,15 @@ class Ls
     }
     else
     {
-      string[] contents =  Directory.GetFiles(Directory.GetCurrentDirectory());
-      foreach (string item in contents)
+      string[] files =  Directory.GetFiles(Directory.GetCurrentDirectory());
+      string[] folders = Directory.GetDirectories(Directory.GetCurrentDirectory());
+      foreach(string folder in folders)
       {
-        Console.WriteLine(item);
-
+        Console.WriteLine(folder);
+      }
+      foreach (string file in files)
+      {
+        Console.WriteLine(file);
       }
       Console.WriteLine(" ");
     }
