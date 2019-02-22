@@ -21,6 +21,7 @@ namespace Blsh
         private string _arch;
         private string _os;
         private string _homeDrive;
+        private int _forgroundColor;
 
         // setting up an array at init seems more secure than willy nilly adding apps
 
@@ -33,6 +34,7 @@ namespace Blsh
             _machine = Environment.MachineName;
             _home = SetEnv("PATH");
             _binaries = SetEnv("BIN");
+            //_forgroundColor = Int32.Parse(SetEnv("CONSOLETEXT"));
             _arch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
             _os = System.Environment.GetEnvironmentVariable("OS");
             _homeDrive = System.Environment.GetEnvironmentVariable("HOMEDRIVE");
@@ -56,7 +58,6 @@ namespace Blsh
             try 
             {
                 File.ReadLines("blsh.ini");
-                
             }
             catch (FileNotFoundException err)
             {
@@ -64,14 +65,15 @@ namespace Blsh
                 string vars = null;
                 Console.WriteLine(err.Message);
                 Console.WriteLine("Creating...");
+                string os = System.Environment.GetEnvironmentVariable("OS");
 
-                if (System.Environment.GetEnvironmentVariable("OS") == "Windows_NT")
+                if ( os == "Windows_NT")
                 { 
                     vars = "PATH =C:\\Users\\BrianPritt\\" + Environment.NewLine + "BIN =C:\\Users\\BrianPritt\\briCode\\blsh\\bin\\";
                 }
-                else
+                if (os == null)
                 {
-                    vars = "PATH =/Users/brian/code/blsp/" + Environment.NewLine + "BIN =/Users/brian/code/blsp/bin";
+                    vars = "PATH =/Users/brian/code/blsp/" + Environment.NewLine + "BIN =/Users/brian/code/blsp/bin/";
                 }
                 using(FileStream fs = File.Create(path))
                 {
@@ -89,7 +91,14 @@ namespace Blsh
         {
             return _binaries;
         }
-    
+        public int GetForegroundColor()
+        {
+            return _forgroundColor;
+        }
+        public void ConfigEnv()
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+        }
         // }
         // public string GetPath()
         // { 

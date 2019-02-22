@@ -16,6 +16,7 @@ namespace Blsh
       Console.Clear();
       Initialize.checkIni();
       Initialize newInit = new Initialize();
+      newInit.ConfigEnv();
       Session newSession = new Session (newInit.GetPath(), newInit.GetBinaries());  
       Directory.SetCurrentDirectory(newSession.GetPath());
 
@@ -38,7 +39,7 @@ namespace Blsh
 
     public static void Promulgate(Session currentSession, string command, string args)
     {  
-      string external = command; // works for MacOS native without .exe. when init class is finished we can get rid of this.
+      string external = command +".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
 
       if (command == "exit")
       {

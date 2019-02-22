@@ -23,7 +23,7 @@ namespace Blsh
     }
 
     ///Built-ins:
-    //took out returns, Later might change back so built-ins can give exit codes.  Delegate might have to change to do that.
+    //took out returns, need to change back so built-ins can give exit codes.  Delegate might have to change to do that.
     public static void clear(Session thisSession, string args)
     {
       Console.Clear();
