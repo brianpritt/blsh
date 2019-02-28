@@ -17,11 +17,12 @@ class Ls
       IEnumerable<string> folders = Directory.EnumerateDirectories(path);
       foreach(string folder in folders)
       {
-        Console.WriteLine(folder);
+
+        Console.WriteLine(folder.Substring(folder.LastIndexOf("/")+1));
       }
       foreach (string file in files)
       {
-        Console.WriteLine(file);
+        Console.WriteLine(file.Substring(file.LastIndexOf("/")+1));
       }
       Console.WriteLine(" ");
     }
@@ -34,11 +35,11 @@ class Ls
       foreach (string item in folders)
       {
 
-        Console.Write(item + "  ");
+        Console.WriteLine(item.Substring(item.LastIndexOf("/")+1));
       }
       foreach (string item in files)
       {
-        Console.Write(item + "  ");
+        Console.WriteLine(item.Substring(item.LastIndexOf("/")+1));
       }
       Console.WriteLine(" ");
     }
