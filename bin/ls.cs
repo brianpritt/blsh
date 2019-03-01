@@ -1,56 +1,98 @@
-// The output of this application needs to be trimmed
-// Changing this to a switch might make it worthwhile.
-
-//make default to skip files that start with "."
-
 using System;
 using System.IO;
 using System.Collections.Generic;
-class Ls
+using System.Linq;
+class ls
 {
-  static void Main(string[] args)
-  {
-    if (args.Length == 0)
+    static void Main(string[] args)
     {
-      string path = Directory.GetCurrentDirectory();
-      string[] files =  Directory.GetFiles(Directory.GetCurrentDirectory());
-      IEnumerable<string> folders = Directory.EnumerateDirectories(path);
-      foreach(string folder in folders)
-      {
-
-        Console.WriteLine(folder.Substring(folder.LastIndexOf("/")+1));
-      }
-      foreach (string file in files)
-      {
-        Console.WriteLine(file.Substring(file.LastIndexOf("/")+1));
-      }
-      Console.WriteLine(" ");
+        List<string> newArgs = new List<string>();
+        if (args.Length == 0 || args[0].StartsWith("-"))
+        {
+            newArgs.Add(Directory.GetCurrentDirectory());
+        } 
+        foreach (string arg in args)
+        {
+            newArgs.Add(arg);
+        }
+        
+        if(Directory.Exists(newArgs[0]) == false)//maybe make the following try-catch
+        {
+            Console.WriteLine("No such directory exists");
+            Environment.Exit(1);
+        }
+        else 
+        {
+            List<KeyValuePair<int, string>> contents = new List<KeyValuePair<int, string>>();
+            contents = getContents(newArgs[0]);
+            if (newArgs.Count == 1)
+            {
+                newArgs.Add("omg");
+            }
+            foreach (string arg in newArgs.Skip(1))
+            {
+                switch (arg)
+                {
+                    case "-a":
+                    output(contents);
+                    break;
+                    case "omg":
+                    output(hideDots(contents));
+                    break;
+                }
+            }
+            
+        }
     }
-    else
+    //--------------------grab all files in dir------------------------//
+    public static List<KeyValuePair<int,string>> getContents(string path)
     {
-      string path = args[0];
-      IEnumerable<string> folders = Directory.EnumerateDirectories(path);
-      string[] files = Directory.GetFiles(path);
-      
-      foreach (string item in folders)
-      {
-
-        Console.WriteLine(item.Substring(item.LastIndexOf("/")+1));
-      }
-      foreach (string item in files)
-      {
-        Console.WriteLine(item.Substring(item.LastIndexOf("/")+1));
-      }
-      Console.WriteLine(" ");
+        List<KeyValuePair<int, string>> contents = new List<KeyValuePair<int,string>>();
+        IEnumerable<string> dirs = Directory.EnumerateDirectories(path); 
+        string[] files = Directory.GetFiles(path);
+        foreach (string item in dirs)
+        {
+            contents.Add(new KeyValuePair<int,string>(0, item));
+        }
+        foreach (string item in files)
+        {
+            contents.Add(new KeyValuePair<int,string>(1, item));
+        }
+        return contents;
     }
-  }
-  // public static string[] GetLS(string path)
-  // {
-
-  // }
+//----------------------Default behavior - hide hidden---------------//
+//not the best solution, but works for now
+    public static List<KeyValuePair<int, string>> hideDots(List<KeyValuePair<int, string>> contents)
+    {   
+        List<KeyValuePair<int,string>> notRemoved = new List<KeyValuePair<int,string>>();
+        foreach (KeyValuePair<int, string> item in contents)
+        {
+            if (item.Value.Substring(item.Value.LastIndexOf("\\")+1).StartsWith("."))
+            {
+                continue;
+            }
+            else
+            {
+                notRemoved.Add(new KeyValuePair<int,string>(item.Key, item.Value ));
+            }
+        }
+    return notRemoved;
+    }    
+//----------------------output function ----------------------//
+    public static void output(List<KeyValuePair<int,string>> contents)
+    {
+        int winWidth = Console.WindowWidth;
+        string output = null;
+        foreach (KeyValuePair<int,string> item in contents)
+        {
+            if (item.Key == 0)
+            {
+                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("\\")));
+            }
+            if (item.Key == 1)
+            {
+                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("\\") + 1));
+            }
+        }
+    }
 }
-//OPTIONS to add:
-//-a show all files
-//--author
-//-C columns
-//
