@@ -22,6 +22,7 @@ namespace Blsh
         private string _os;
         private string _homeDrive;
         private int _forgroundColor;
+        private string _dirStructure;
 
         // setting up an array at init seems more secure than willy nilly adding apps
 
@@ -34,10 +35,10 @@ namespace Blsh
             _machine = Environment.MachineName;
             _home = SetEnv("PATH");
             _binaries = SetEnv("BIN");
-            //_forgroundColor = Int32.Parse(SetEnv("CONSOLETEXT"));
             _arch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
             _os = System.Environment.GetEnvironmentVariable("OS");
             _homeDrive = System.Environment.GetEnvironmentVariable("HOMEDRIVE");
+            _dirStructure = SetStructure();
         }
         //Add check to see if required variable actually exist, and add a default if they do not
         public string SetEnv(string getEnv)
@@ -47,7 +48,8 @@ namespace Blsh
             {
                 if(line.Contains(getEnv))
                 {
-                    return line.Substring(line.LastIndexOf('=')+1);
+                    string noSpace = line.Replace(" ", "");
+                    return noSpace.Substring(noSpace.LastIndexOf('=')+1);
                 }
             }
             return null;
@@ -65,15 +67,15 @@ namespace Blsh
                 string vars = null;
                 Console.WriteLine(err.Message);
                 Console.WriteLine("Creating...");
-                string os = System.Environment.GetEnvironmentVariable("OS");
+                char os = Path.DirectorySeparatorChar;
 
-                if ( os == "Windows_NT")
+                if ( os == '\\')
                 { 
-                    vars = "PATH =C:\\Users\\BrianPritt\\" + Environment.NewLine + "BIN =C:\\Users\\BrianPritt\\briCode\\blsh\\bin\\";
+                    vars = "PATH = C:\\Users\\"+Environment.UserName+"\\" + Environment.NewLine + "BIN = C:\\Users\\BrianPritt\\briCode\\blsh\\bin\\";
                 }
-                if (os == null)
+                if (os == '/')
                 {
-                    vars = "PATH =/Users/brian/code/blsp/" + Environment.NewLine + "BIN =/Users/brian/code/blsp/bin/";
+                    vars = "PATH = /Users/brian/code/blsp/" + Environment.NewLine + "BIN = /Users/brian/code/blsp/bin/";
                 }
                 using(FileStream fs = File.Create(path))
                 {
@@ -82,6 +84,24 @@ namespace Blsh
                     
                 };
             }
+        }
+        public string SetStructure()
+        // checks to see if OS uses '/' or '\' for Directory seperator, since Environment.GetEnvironmentVariable("OS") does not work on MacOS
+        {
+            char style = Path.DirectorySeparatorChar;
+            if (style == '\\')
+            {
+                return "win";
+            }
+            if (style == '/')
+            {
+                return "nix";
+            }
+            return "nix";
+        }
+        public string GetStructure()
+        {
+            return _dirStructure;
         }
         public string GetPath()
         {
@@ -99,6 +119,7 @@ namespace Blsh
         {
             Console.ForegroundColor = ConsoleColor.Green;
         }
+        
         // }
         // public string GetPath()
         // { 

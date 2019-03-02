@@ -47,7 +47,8 @@ namespace Blsh
       }
       else if (BuiltIns.builtins.ContainsKey(command))
       {
-        BuiltIns.runBuiltIns(currentSession, command, args);  
+       int code = BuiltIns.runBuiltIns(currentSession, command, args);  
+       Console.WriteLine(code);
       }
       else
       {
