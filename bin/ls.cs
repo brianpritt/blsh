@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 class ls
 {
-    static void Main(string[] args)
+    static int Main(string[] args)
     {
         List<string> newArgs = new List<string>();
-        if (args.Length == 0 || args[0].StartsWith("-"))
+        if (args.Length ==0  || args[0].StartsWith("-"))
         {
             newArgs.Add(Directory.GetCurrentDirectory());
         } 
@@ -19,30 +19,31 @@ class ls
         if(Directory.Exists(newArgs[0]) == false)//maybe make the following try-catch
         {
             Console.WriteLine("No such directory exists");
-            Environment.Exit(1);
+            // Environment.Exit(1);
+            return 1;
         }
         else 
         {
             List<KeyValuePair<int, string>> contents = new List<KeyValuePair<int, string>>();
-            contents = getContents(newArgs[0]);
+            contents = getContents(newArgs[0]); 
             if (newArgs.Count == 1)
             {
-                newArgs.Add("omg");
+                newArgs.Add("default");
             }
             foreach (string arg in newArgs.Skip(1))
             {
-                switch (arg)
+                switch (newArgs[1])
                 {
                     case "-a":
                     output(contents);
-                    break;
-                    case "omg":
+                    return 0;
+                    case "default":
                     output(hideDots(contents));
-                    break;
+                    return 0;
                 }
-            }
-            
+            } 
         }
+        return 0;
     }
     //--------------------grab all files in dir------------------------//
     public static List<KeyValuePair<int,string>> getContents(string path)
@@ -67,7 +68,7 @@ class ls
         List<KeyValuePair<int,string>> notRemoved = new List<KeyValuePair<int,string>>();
         foreach (KeyValuePair<int, string> item in contents)
         {
-            if (item.Value.Substring(item.Value.LastIndexOf("\\")+1).StartsWith("."))
+            if (item.Value.Substring(item.Value.LastIndexOf("/")+1).StartsWith("."))
             {
                 continue;
             }
@@ -87,11 +88,11 @@ class ls
         {
             if (item.Key == 0)
             {
-                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("\\")));
+                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("/")));
             }
             if (item.Key == 1)
             {
-                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("\\") + 1));
+                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("/")+1));
             }
         }
     }

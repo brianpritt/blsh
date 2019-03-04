@@ -14,7 +14,7 @@ class Mkdir
             }
             else{
                 Directory.CreateDirectory(arg);
-                switch (args[1])
+                switch (args[0])
                 {
                     case "-v":
                     Console.WriteLine("mkdir: {0} created in {1}", args[0], Directory.GetCurrentDirectory());

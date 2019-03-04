@@ -11,7 +11,6 @@ namespace Blsh
   {
     public static void Main()
     {
-      
       string input = null;
       Console.Clear();
       Initialize.checkIni();
@@ -48,7 +47,6 @@ namespace Blsh
       else if (BuiltIns.builtins.ContainsKey(command))
       {
        int code = BuiltIns.runBuiltIns(currentSession, command, args);  
-       Console.WriteLine(code);
       }
       else
       {
@@ -57,23 +55,15 @@ namespace Blsh
           Process process = new Process();
          
           process.StartInfo = new ProcessStartInfo(currentSession.GetBin() + external, args );
-          // {
-
-          //   // UseShellExectute = false
-          // };
-          
           process.StartInfo.UseShellExecute = false;
           process.Start();
-          process.WaitForExit();
-
-  
+          process.WaitForExit();  
         }
         catch (Win32Exception w)
         {
-          Console.WriteLine(w.Message);
+          Console.WriteLine("blsh cannot find what you are looking for");
         }
       }
     }
-    
   }
 }
