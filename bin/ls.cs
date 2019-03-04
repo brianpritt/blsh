@@ -37,6 +37,9 @@ class ls
                     case "-a":
                     output(contents);
                     return 0;
+                    case "-d":
+                    output(dirsOnly(contents));
+                    return 0;
                     case "default":
                     output(hideDots(contents));
                     return 0;
@@ -68,7 +71,7 @@ class ls
         List<KeyValuePair<int,string>> notRemoved = new List<KeyValuePair<int,string>>();
         foreach (KeyValuePair<int, string> item in contents)
         {
-            if (item.Value.Substring(item.Value.LastIndexOf("/")+1).StartsWith("."))
+            if (item.Value.Substring(item.Value.LastIndexOf("\\")+1).StartsWith("."))
             {
                 continue;
             }
@@ -79,20 +82,34 @@ class ls
         }
     return notRemoved;
     }    
+//----------------------Hide Files----------------------------//
+
+    public static List<KeyValuePair<int,string>> dirsOnly(List<KeyValuePair<int,string>> contents)
+    {
+        List<KeyValuePair<int, string>> dirs = new List<KeyValuePair<int, string>>();
+        foreach (KeyValuePair<int,string> item in contents)
+        {
+            if (item.Key == 0)
+                dirs.Add(new KeyValuePair<int,string>(item.Key, item.Value));
+        }
+        return dirs;
+    }
 //----------------------output function ----------------------//
     public static void output(List<KeyValuePair<int,string>> contents)
     {
+        var longest = contents.Aggregate((max, cur)=>max.Value.Length > cur.Value.Length ? max:cur);
         int winWidth = Console.WindowWidth;
+        Console.WriteLine(winWidth/longest.Value.Length);
         string output = null;
         foreach (KeyValuePair<int,string> item in contents)
         {
             if (item.Key == 0)
             {
-                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("/")));
+                Console.Write(item.Value.Substring(item.Value.LastIndexOf("\\")) + "\t");
             }
             if (item.Key == 1)
             {
-                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf("/")+1));
+                Console.Write(item.Value.Substring(item.Value.LastIndexOf("\\")+1) + "\t");
             }
         }
     }
