@@ -75,7 +75,7 @@ namespace Blsh
                 }
                 if (os == '/')
                 {
-                    vars = "PATH = /Users/brian/code/blsp/" + Environment.NewLine + "BIN = /Users/brian/code/blsp/bin/";
+                    vars = "PATH = /Users/brian/code/blsh/" + Environment.NewLine + "BIN = /Users/brian/code/blsh/bin/";
                 }
                 using(FileStream fs = File.Create(path))
                 {

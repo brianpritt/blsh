@@ -23,7 +23,6 @@ namespace Blsh
       {
         Console.Write(newSession.GetPath() + " $ ");
         input = Console.ReadLine();
-
         string[] splitCommand = input.Split(" ");
 
         string command = splitCommand[0];
@@ -39,7 +38,7 @@ namespace Blsh
     public static void Promulgate(Session currentSession, string command, string args)
     {  
       string external = command +".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
-
+      int exit;
       if (command == "exit")
       {
         Console.WriteLine("Exiting...");
@@ -55,13 +54,15 @@ namespace Blsh
           Process process = new Process();
          
           process.StartInfo = new ProcessStartInfo(currentSession.GetBin() + external, args );
-          process.StartInfo.UseShellExecute = false;
+          // process.StartInfo.UseShellExecute = false;
           process.Start();
           process.WaitForExit();  
+          
+          // exit = process.ExitCode;
         }
         catch (Win32Exception w)
         {
-          Console.WriteLine("blsh cannot find what you are looking for");
+          Console.WriteLine(command + ": does not exist in this context");
         }
       }
     }

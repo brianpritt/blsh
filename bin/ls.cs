@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 class ls
 {
+    static char seperator = Path.DirectorySeparatorChar;//so this method can run cross platform without changing code
     static int Main(string[] args)
     {
         List<string> newArgs = new List<string>();
@@ -66,12 +67,13 @@ class ls
     }
 //----------------------Default behavior - hide hidden---------------//
 //not the best solution, but works for now
+// does not work on '/'
     public static List<KeyValuePair<int, string>> hideDots(List<KeyValuePair<int, string>> contents)
     {   
         List<KeyValuePair<int,string>> notRemoved = new List<KeyValuePair<int,string>>();
         foreach (KeyValuePair<int, string> item in contents)
         {
-            if (item.Value.Substring(item.Value.LastIndexOf("\\")+1).StartsWith("."))
+            if (item.Value.Substring(item.Value.LastIndexOf(seperator)+1).StartsWith("."))
             {
                 continue;
             }
@@ -97,20 +99,29 @@ class ls
 //----------------------output function ----------------------//
     public static void output(List<KeyValuePair<int,string>> contents)
     {
-        var longest = contents.Aggregate((max, cur)=>max.Value.Length > cur.Value.Length ? max:cur);
-        int winWidth = Console.WindowWidth;
-        Console.WriteLine(winWidth/longest.Value.Length);
+        
+        // var longest = contents.Aggregate((max, cur)=>max.Value.Length > cur.Value.Length ? max:cur);
+        // int winWidth = Console.WindowWidth;
+        // Console.WriteLine(winWidth/longest.Value.Length);
+    //    WinWidth(contents);
         string output = null;
         foreach (KeyValuePair<int,string> item in contents)
         {
             if (item.Key == 0)
             {
-                Console.Write(item.Value.Substring(item.Value.LastIndexOf("\\")) + "\t");
+                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf(seperator)) + "\t");
             }
             if (item.Key == 1)
             {
-                Console.Write(item.Value.Substring(item.Value.LastIndexOf("\\")+1) + "\t");
+                Console.WriteLine(item.Value.Substring(item.Value.LastIndexOf(seperator)+1) + "\t");
             }
         }
+        Console.WriteLine();
+    }
+    public static void WinWidth(List<KeyValuePair<int,string>> contents)
+    {
+        var longest = contents.Aggregate((max, cur)=>max.Value.Length > cur.Value.Length ? max:cur);
+        int winWidth = Console.WindowWidth;
+        // Console.WriteLine(winWidth/longest.Value.Length);
     }
 }
