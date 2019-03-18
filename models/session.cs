@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace Blsh
 {
   public class Session
@@ -19,6 +20,7 @@ namespace Blsh
     {
       _path = path;
       _binPath = bin;
+      // _available = _available;
       
     }
     public void SetPath(string path)
@@ -49,7 +51,10 @@ namespace Blsh
     // {
     //   return _args;
     // }
-
+    public void setBinsDict()
+    {
+      
+    }
     public static void AddCommand(string command)
     {
       _history.Add(command);

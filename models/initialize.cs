@@ -3,6 +3,7 @@
 
 // the ini file should just have list of builtin commands just like bash. so setting default path will look like "cd /path/to/home"
 //same with command folders, use export
+// TODO: add comma seperated values for multiple BIN locations
 using System;
 using System.IO;
 using System.Text;
@@ -54,6 +55,7 @@ namespace Blsh
             }
             return null;
         }
+
         // check if there is an ini file, create one if not // move default to root later maybe?
         public static void checkIni()
         {
@@ -85,6 +87,7 @@ namespace Blsh
                 };
             }
         }
+
         public string SetStructure()
         // checks to see if OS uses '/' or '\' for Directory seperator, since Environment.GetEnvironmentVariable("OS") does not work on MacOS
         {
@@ -120,23 +123,20 @@ namespace Blsh
             Console.ForegroundColor = ConsoleColor.Green;
         }
         
-        // }
-        // public string GetPath()
-        // { 
-
-        // }
         // public string GetBin()
         // {
 
         // }
         // public string GetUser()
         // {
-
         // }
         // public string GetMachine()
         // {
+        // }
+        // public string GetPath()
+        // { 
+        // }
 
-        
-        
+
     }
 } 
