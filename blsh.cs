@@ -9,6 +9,8 @@ namespace Blsh
 {
   public class theShell
   {
+    public static string ver = "0.001";
+    public static string license = "GPLv3";
     public static void Main()
     {
       string input = null;
@@ -18,11 +20,12 @@ namespace Blsh
       newInit.ConfigEnv();
       Session newSession = new Session (newInit.GetPath(), newInit.GetBinaries());  
       Directory.SetCurrentDirectory(newSession.GetPath());
-
+      ConsoleKeyInfo keyinf;
       do
       {
         Console.Write(newSession.GetPath() + " $ ");
         input = Console.ReadLine();
+        
         string[] splitCommand = input.Split(" ");
 
         string command = splitCommand[0];

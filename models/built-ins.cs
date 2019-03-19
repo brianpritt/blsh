@@ -1,4 +1,4 @@
-//mehtods that need to be finished: help, cd, for-do, history, jobs, dirs, echo, and lots of others that build the scripting language portion of the shell.
+//mehtods that need to be finished: help, for-do, jobs, dirs, echo, and lots of others that build the scripting language portion of the shell.
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,7 +14,9 @@ namespace Blsh
       {"clear", clear},
       {"pwd", pwd},
       {"whoami",whoami},
-      {"cd",cd}
+      {"cd",cd},
+      {"history",history},
+      {"help",help}
     };
 
     public static int runBuiltIns(Session thisSession, string com, string args)
@@ -24,7 +26,6 @@ namespace Blsh
     }
 
     ///Built-ins:
-    //took out returns, need to change back so built-ins can give exit codes.  Delegate might have to change to do that.
     public static int clear(Session thisSession, string args)
     {
       Console.Clear();
@@ -32,7 +33,7 @@ namespace Blsh
     }
     public static int whoami(Session thisSession, string args)
     {
-      //the Session object actually has properites for this. but whatever.  I'm waiting for the init method class to be built to figure out where this will get assigned. For now. Just be happy that it's here.
+      //the initialize object actually has properites for this. but whatever.  I'm waiting for the init method class to be built to figure out where this will get assigned. For now. Just be happy that it's here.
       Console.WriteLine("{0} on {1}", Environment.UserName, Environment.MachineName);
       return 0;
     }
@@ -67,6 +68,28 @@ namespace Blsh
           return 1;
         }
       }
+    }
+    public static int history(Session thisSession, string args)
+    {
+      List<string> history = thisSession.GetCommands();
+      foreach (string item in history)
+      {
+        Console.WriteLine(item);
+      }
+      return 0;
+    }
+    public static int help(Session thisSession, string args)
+    {
+      Console.WriteLine("The Brian Lee Shell - blsh - ver {0} ", theShell.ver);
+      Console.WriteLine("Licensed under {0}", theShell.license);
+      Console.WriteLine();
+      Console.WriteLine("The following commands are available:");
+      foreach (KeyValuePair<string, Blsh.BuiltIns.myDelegate> item in BuiltIns.builtins)
+      {
+        Console.WriteLine(item.Key);
+      }
+      Console.WriteLine();
+      return 0;
     }
   } 
 }

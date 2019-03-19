@@ -59,7 +59,7 @@ namespace Blsh
     {
       _history.Add(command);
     }
-    public static List<string> GetCommands()
+    public List<string> GetCommands()
     {
       return _history;
     }
