@@ -57,7 +57,7 @@ namespace Blsh
           Process process = new Process();
          
           process.StartInfo = new ProcessStartInfo(currentSession.GetBin() + external, args );
-          // process.StartInfo.UseShellExecute = false;
+          process.StartInfo.UseShellExecute = false;
           process.Start();
           process.WaitForExit();  
           
