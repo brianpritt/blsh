@@ -11,6 +11,7 @@ namespace Blsh
   {
     public static string ver = "0.001";
     public static string license = "GPLv3";
+    public static string authors = "Brian Pritt";
     public static void Main()
     {
       string input = null;
