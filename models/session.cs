@@ -8,7 +8,7 @@ namespace Blsh
   {
     private string _path;
     private string _prevPath;
-    private string _binPath;
+    private string[] _binPath;
     private string _env;
     // private string _command;
     // private string _args;
@@ -16,7 +16,7 @@ namespace Blsh
     private static Dictionary<string, string> _available = new Dictionary<string, string > {};
     private static List<string> _history = new List<string> {};
 
-    public Session(string path, string bin)
+    public Session(string path, string[] bin)
     {
       _path = path;
       _binPath = bin;
@@ -31,7 +31,7 @@ namespace Blsh
     {
       return _path;
     }
-    public string GetBin()
+    public string[] GetBin()
     {
       return _binPath;
     }

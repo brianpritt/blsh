@@ -1,3 +1,7 @@
+// Classes:
+// Initialize: Static class for seting up shell environment
+// Session: Creates environment variables
+// Built-Ins: Built-in shell methods - see class for list
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,7 +20,7 @@ namespace Blsh
     {
       string input = null;
       Console.Clear();
-      Initialize.checkIni();
+      Initialize.checkIni();//looks for .ini file makes one if does not exist
       Initialize newInit = new Initialize();
       newInit.ConfigEnv();
       Session newSession = new Session (newInit.GetPath(), newInit.GetBinaries());  
@@ -41,7 +45,8 @@ namespace Blsh
 
     public static void Promulgate(Session currentSession, string command, string args)
     {  
-      string external = command +".exe"; // works for MacOS native without .exe. when init class is finished we can get rid of this.
+      //only works on exe files right now, need to add support for native MacOS
+      string external = command + ".exe" ; 
       int exit;
       if (command == "exit")
       {
@@ -53,20 +58,24 @@ namespace Blsh
       }
       else
       {
-        try
-        {
-          Process process = new Process();
-         
-          process.StartInfo = new ProcessStartInfo(currentSession.GetBin() + external, args );
-          process.StartInfo.UseShellExecute = false;
-          process.Start();
-          process.WaitForExit();  
-          
-          // exit = process.ExitCode;
-        }
-        catch (Win32Exception w)
-        {
-          Console.WriteLine(command + ": does not exist in this context");
+        //Cycle through arry of paths and 
+        Process process = new Process();
+        string[] paths = currentSession.GetBin();
+        foreach (string bin in paths)
+        {  
+          try
+          {
+            process.StartInfo = new ProcessStartInfo(bin + external, args );
+            process.StartInfo.UseShellExecute = false;
+            process.Start();
+            process.WaitForExit();  
+        
+        // exit = process.ExitCode;
+          }
+          catch (Win32Exception w)
+          {
+            //figure out how to put exceptions output later, since it is likely going to throw many when it cycles through list
+          }
         }
       }
     }

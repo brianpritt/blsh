@@ -9,6 +9,7 @@ using System.IO;
 using System.Text;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace Blsh
 {
@@ -17,13 +18,14 @@ namespace Blsh
         private string _user;
         private string _machine;
         private string _home;
-        private string _binaries;
+        private string[] _binaries;
         private string[] _external;
         private string _arch;
         private string _os;
         private string _homeDrive;
         private int _forgroundColor;
         private string _dirStructure;
+        private string[] _test;
 
         // setting up an array at init seems more secure than willy nilly adding apps
 
@@ -35,11 +37,12 @@ namespace Blsh
             _user = Environment.UserName;
             _machine = Environment.MachineName;
             _home = SetEnv("PATH");
-            _binaries = SetEnv("BIN");
+            _binaries = SetBinaries("BIN");
             _arch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
             _os = System.Environment.GetEnvironmentVariable("OS");
             _homeDrive = System.Environment.GetEnvironmentVariable("HOMEDRIVE");
             _dirStructure = SetStructure();
+            _test = SetBinaries("TEST");
         }
         //Add check to see if required variable actually exist, and add a default if they do not
         public string SetEnv(string getEnv)
@@ -54,6 +57,24 @@ namespace Blsh
                 }
             }
             return null;
+        }
+        public string[] SetBinaries(string getBins)
+        {
+            string[] theBins = null;
+            iniContents = File.ReadAllLines(iniFile);
+            foreach(string line in iniContents)
+            {
+                if(line.Contains(getBins))
+                    {
+                        string noSpace = line.Replace(" ", "");
+                        string ready = noSpace.Substring(noSpace.LastIndexOf('=')+1);
+                        theBins = ready.Split(':');
+                        foreach (string item in theBins)
+                        {Console.WriteLine(item);}
+                    }
+
+            }
+            return theBins;
         }
 
         // check if there is an ini file, create one if not // move default to root later maybe?
@@ -110,7 +131,7 @@ namespace Blsh
         {
             return _home;
         }
-        public string GetBinaries()
+        public string[] GetBinaries()
         {
             return _binaries;
         }
