@@ -80,6 +80,7 @@ namespace Blsh
     }
     public static int help(Session thisSession, string args)
     {
+      Console.WriteLine();
       Console.WriteLine("The Brian Lee Shell - blsh - ver {0} ", theShell.ver);
       Console.WriteLine("Licensed under {0}", theShell.license);
       Console.WriteLine();

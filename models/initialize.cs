@@ -3,7 +3,7 @@
 
 // the ini file should just have list of builtin commands just like bash. so setting default path will look like "cd /path/to/home"
 //same with command folders, use export
-// TODO: add comma seperated values for multiple BIN locations
+//ToDo: add access to environment variables mcuh like bash $PATH or printenv
 using System;
 using System.IO;
 using System.Text;
@@ -26,26 +26,25 @@ namespace Blsh
         private int _forgroundColor;
         private string _dirStructure;
         private string[] _test;
+        private static Dictionary<string, string> _env = new Dictionary<string, string>{};
 
         // setting up an array at init seems more secure than willy nilly adding apps
-
-
         public static string iniFile = "blsh.ini";
         public static string[] iniContents;
         public Initialize()
         {
             _user = Environment.UserName;
             _machine = Environment.MachineName;
-            _home = SetEnv("PATH");
+            _home = SetPath("PATH");
             _binaries = SetBinaries("BIN");
             _arch = System.Environment.GetEnvironmentVariable("PROCESSOR_ARCHITECTURE");
             _os = System.Environment.GetEnvironmentVariable("OS");
             _homeDrive = System.Environment.GetEnvironmentVariable("HOMEDRIVE");
             _dirStructure = SetStructure();
-            _test = SetBinaries("TEST");
         }
         //Add check to see if required variable actually exist, and add a default if they do not
-        public string SetEnv(string getEnv)
+        public string SetPath(string getEnv)
+        //was using for both _bin and _path but bin now uses .SetBinaries() may use that one for _path too
         {
             iniContents = File.ReadAllLines(iniFile);
             foreach(string line in iniContents)
@@ -69,8 +68,6 @@ namespace Blsh
                         string noSpace = line.Replace(" ", "");
                         string ready = noSpace.Substring(noSpace.LastIndexOf('=')+1);
                         theBins = ready.Split(':');
-                        foreach (string item in theBins)
-                        {Console.WriteLine(item);}
                     }
 
             }
@@ -78,6 +75,7 @@ namespace Blsh
         }
 
         // check if there is an ini file, create one if not // move default to root later maybe?
+        // This REAAAAAALy needs to be rewritten, it's garbage how I am doing this.
         public static void checkIni()
         {
             try 
@@ -110,7 +108,9 @@ namespace Blsh
         }
 
         public string SetStructure()
-        // checks to see if OS uses '/' or '\' for Directory seperator, since Environment.GetEnvironmentVariable("OS") does not work on MacOS
+        // checks to see if OS uses '/' or '\' for Directory seperator, since Environment.GetEnvironmentVariable("OS") does not work on MacOS 
+        // currently no check working specifically for gnu/Linux
+        // Works, but also... garbage
         {
             char style = Path.DirectorySeparatorChar;
             if (style == '\\')

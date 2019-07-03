@@ -6,7 +6,10 @@
 ### Notes and questions
 
 ## ToDo
-
+* method that takes filename as an agument and checks if it exists.
+    * there are now several external files that need to be checked, so it needs to be DRYd up
+* arrow up for history
+    * enumerate branch has a beginning of this feature.
 
 ## Finished
 * _Basic Loop in Main()_
@@ -16,13 +19,15 @@
 
 ## Current Built-Ins
 * clear
-* pwd
+* pwd 
 * whoami
 * cd 
+* history
 
 ## Current Externals
 * ls (outputs needs cleanup)
 * mkdir
+* touch
 
 ## Known Bugs
 

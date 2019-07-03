@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.IO;
 using System.ComponentModel;
+using System.Text;
 
 namespace Blsh
 {
@@ -45,12 +46,13 @@ namespace Blsh
 
     public static void Promulgate(Session currentSession, string command, string args)
     {  
-      //only works on exe files right now, need to add support for native MacOS
+      //only works on exe files right now, need to add support for native MacOS / linux
       string external = command + ".exe" ; 
       int exit;
       if (command == "exit")
       {
         Console.WriteLine("Exiting...");
+        EndSession(currentSession);
       }
       else if (BuiltIns.builtins.ContainsKey(command))
       {
@@ -78,6 +80,44 @@ namespace Blsh
           }
         }
       }
+    }
+    public static void EndSession(Session currentSession){
+      List<string> history = currentSession.GetCommands();
+      string hist = @".blsh_history";
+      if (File.Exists(hist))
+      {
+         using (System.IO.StreamWriter file = new System.IO.StreamWriter(hist, true))
+         {
+           foreach(string line in history)
+           {
+             file.WriteLine(line);
+           }
+         }
+      }
+      // try
+      // {
+      //   File.ReadLines(".blsh_history");
+      //   File.Close();
+      // }
+      // catch(FileNotFoundException e)
+      // {
+      //   Console.WriteLine("Creating files nessicary for richer experience");
+      //   string path = @".blsh_history";
+      //   // only MacOS rn
+      //   using(FileStream fs = File.Create(path))
+      //   {
+      //     Byte[] fle = new UTF8Encoding(true).GetBytes("");
+      //     fs.Write(fle,0,fle.Length);
+      //     fs.Dispose();
+      //   }
+      // }
+      // using (FileStream fs = File.Open(@".blsh_history", FileMode.Open))
+      // {
+      //   foreach(string command in history)
+      //   {
+      //     fs.Write(command);
+      //   }
+      // }
     }
   }
 }
