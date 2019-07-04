@@ -84,40 +84,24 @@ namespace Blsh
     public static void EndSession(Session currentSession){
       List<string> history = currentSession.GetCommands();
       string hist = @".blsh_history";
-      if (File.Exists(hist))
+      if (!File.Exists(hist))
       {
-         using (System.IO.StreamWriter file = new System.IO.StreamWriter(hist, true))
-         {
-           foreach(string line in history)
-           {
-             file.WriteLine(line);
-           }
-         }
+        Console.WriteLine("Creating files nessicary for richer experience");
+        // only MacOS rn
+        using(FileStream fs = File.Create(hist))
+        {
+          Byte[] fle = new UTF8Encoding(true).GetBytes("");
+          fs.Write(fle,0,fle.Length);
+          fs.Dispose();
+        }
       }
-      // try
-      // {
-      //   File.ReadLines(".blsh_history");
-      //   File.Close();
-      // }
-      // catch(FileNotFoundException e)
-      // {
-      //   Console.WriteLine("Creating files nessicary for richer experience");
-      //   string path = @".blsh_history";
-      //   // only MacOS rn
-      //   using(FileStream fs = File.Create(path))
-      //   {
-      //     Byte[] fle = new UTF8Encoding(true).GetBytes("");
-      //     fs.Write(fle,0,fle.Length);
-      //     fs.Dispose();
-      //   }
-      // }
-      // using (FileStream fs = File.Open(@".blsh_history", FileMode.Open))
-      // {
-      //   foreach(string command in history)
-      //   {
-      //     fs.Write(command);
-      //   }
-      // }
+      using (System.IO.StreamWriter file = new System.IO.StreamWriter(hist, true))
+      {
+        forea ch(string line in history)
+        {
+          file.WriteLine(line);
+        }
+      } 
     }
   }
 }
