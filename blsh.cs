@@ -2,6 +2,8 @@
 // Initialize: Static class for seting up shell environment
 // Session: Creates environment variables
 // Built-Ins: Built-in shell methods - see class for list
+
+//NEXT move checkini and check history into one method 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,6 +23,8 @@ namespace Blsh
     {
       string input = null;
       Console.Clear();
+      Initialize.makeFile(".blsh_history");
+      Initialize.makeFile("blsh.ini");
       Initialize.checkIni();//looks for .ini file makes one if does not exist
       Initialize newInit = new Initialize();
       newInit.ConfigEnv();
@@ -97,7 +101,7 @@ namespace Blsh
       }
       using (System.IO.StreamWriter file = new System.IO.StreamWriter(hist, true))
       {
-        forea ch(string line in history)
+        foreach(string line in history)
         {
           file.WriteLine(line);
         }

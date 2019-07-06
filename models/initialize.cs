@@ -10,6 +10,7 @@ using System.Text;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Blsh
 {
@@ -73,38 +74,43 @@ namespace Blsh
             }
             return theBins;
         }
+        // the following is to replace all code that checks/makes a file
+        public static void makeFile(string fileName)
+        {
+            if(!File.Exists(fileName))
+            {
+                using(FileStream fs = File.Create(fileName))
+                {
+                    Byte[] newFl = new UTF8Encoding(true).GetBytes(""); 
+                    fs.Write(newFl,0,newFl.Length);
+                    fs.Close();
+                    Console.WriteLine(fileName + " does not exist\n Creating...");
 
-        // check if there is an ini file, create one if not // move default to root later maybe?
-        // This REAAAAAALy needs to be rewritten, it's garbage how I am doing this.
+                }
+            }    
+        }
+        // Writes basic blsh.ini file contents if file had to be created.
+        //Would be great to make this more concise.
+        //wrwritten 7/5/2019
+        
         public static void checkIni()
         {
-            try 
-            {
-                File.ReadLines("blsh.ini");
+            string path = @"blsh.ini";
+            string vars = null;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) == true)
+            { 
+                vars = "PATH = C:\\Users\\"+Environment.UserName+"\\" + Environment.NewLine + "BIN = C:\\Users\\BrianPritt\\briCode\\blsh\\bin\\";
             }
-            catch (FileNotFoundException err)
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX) == true)
             {
-                string path = @"blsh.ini";
-                string vars = null;
-                Console.WriteLine(err.Message);
-                Console.WriteLine("Creating...");
-                char os = Path.DirectorySeparatorChar;
-
-                if ( os == '\\')
-                { 
-                    vars = "PATH = C:\\Users\\"+Environment.UserName+"\\" + Environment.NewLine + "BIN = C:\\Users\\BrianPritt\\briCode\\blsh\\bin\\";
-                }
-                if (os == '/')
-                {
-                    vars = "PATH = /Users/brian/code/blsh/" + Environment.NewLine + "BIN = /Users/brian/code/blsh/bin/";
-                }
-                using(FileStream fs = File.Create(path))
-                {
-                    Byte[] fle = new UTF8Encoding(true).GetBytes(vars);
-                    fs.Write(fle,0,fle.Length);
-                    
-                };
+                vars = "PATH = /Users/brian/code/blsh/" + Environment.NewLine + "BIN = /Users/brian/code/blsh/bin/";
             }
+            //Add a statement for Linux here
+            string [] contents = File.ReadAllLines(path);
+            if (contents.Length == 0)
+            {
+                File.WriteAllText(@path, vars);
+            };
         }
 
         public string SetStructure()
